@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Facebook, Mail } from "lucide-react";
+import { Facebook, Mail, Gift } from "lucide-react";
 import Confetti from "./Confetti";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
@@ -86,10 +86,10 @@ const Auth = ({ onComplete, initialTab = "login" }: AuthProps) => {
                   <Mail className="mr-2 h-4 w-4" /> Continue with Email
                 </Button>
                 
-                <div className="relative flex py-4 items-center">
-                  <Separator className="flex-grow" />
-                  <span className="flex-shrink mx-4 text-xs text-muted-foreground">OR CONTINUE WITH</span>
-                  <Separator className="flex-grow" />
+                <div className="relative flex items-center py-4">
+                  <div className="flex-grow border-t border-muted"></div>
+                  <span className="flex-shrink-0 mx-4 text-xs text-muted-foreground">OR CONTINUE WITH</span>
+                  <div className="flex-grow border-t border-muted"></div>
                 </div>
                 
                 <Button type="button" variant="outline" className="w-full">
@@ -135,10 +135,10 @@ const Auth = ({ onComplete, initialTab = "login" }: AuthProps) => {
                   <Mail className="mr-2 h-4 w-4" /> Sign up with Email
                 </Button>
                 
-                <div className="relative flex py-4 items-center">
-                  <Separator className="flex-grow" />
-                  <span className="flex-shrink mx-4 text-xs text-muted-foreground">OR SIGN UP WITH</span>
-                  <Separator className="flex-grow" />
+                <div className="relative flex items-center py-4">
+                  <div className="flex-grow border-t border-muted"></div>
+                  <span className="flex-shrink-0 mx-4 text-xs text-muted-foreground">OR SIGN UP WITH</span>
+                  <div className="flex-grow border-t border-muted"></div>
                 </div>
                 
                 <Button type="button" variant="outline" className="w-full">
@@ -158,7 +158,5 @@ const Auth = ({ onComplete, initialTab = "login" }: AuthProps) => {
     </div>
   );
 };
-
-import { Gift } from "lucide-react";
 
 export default Auth;

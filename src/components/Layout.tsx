@@ -3,8 +3,9 @@ import { Link, useLocation } from "react-router-dom";
 import { useApp } from "@/context/AppContext";
 import { Button } from "@/components/ui/button";
 import UserAvatar from "./UserAvatar";
-import { Calendar, Gift, Home, LogOut, PlusCircle, User, Wallet } from "lucide-react";
+import { Calendar, Gift, Home, LogOut, PlusCircle, User, Wallet, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
+import NotificationDropdown from "./NotificationDropdown";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -45,12 +46,22 @@ const Layout = ({ children }: LayoutProps) => {
                     <Calendar className="h-5 w-5" />
                   </Link>
                 </Button>
+
+                <Button variant="ghost" size="icon" asChild className="hidden md:inline-flex">
+                  <Link to="/community">
+                    <Users className="h-5 w-5" />
+                  </Link>
+                </Button>
                 
                 <Button variant="ghost" size="icon" asChild className="hidden md:inline-flex">
                   <Link to="/create-event">
                     <PlusCircle className="h-5 w-5 text-dustyRose" />
                   </Link>
                 </Button>
+
+                <div className="hidden md:block">
+                  <NotificationDropdown />
+                </div>
                 
                 <div className="flex items-center gap-2 ml-2">
                   <Link to="/profile">
@@ -110,6 +121,13 @@ const Layout = ({ children }: LayoutProps) => {
               )}>
                 <Calendar className="h-5 w-5" />
                 <span>Calendar</span>
+              </Link>
+              <Link to="/community" className={cn(
+                "flex flex-col items-center text-xs font-medium",
+                location.pathname === "/community" && "text-dustyRose"
+              )}>
+                <Users className="h-5 w-5" />
+                <span>Community</span>
               </Link>
               <Link to="/create-event" className={cn(
                 "flex flex-col items-center text-xs font-medium",
