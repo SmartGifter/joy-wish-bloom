@@ -9,7 +9,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Calendar as CalendarIcon, Gift } from "lucide-react";
 import { EventType, eventTypeIcons } from "@/data/mockData";
-import { User } from "@/types";
 
 const Calendar = () => {
   const { users, events, currentUser } = useApp();
@@ -163,7 +162,61 @@ const Calendar = () => {
           </Card>
 
           <div className="md:col-span-2 space-y-6">
-            <TabsContent value="month" className="mt-0">
+            {/* Important: We need to wrap TabsContent components inside a Tabs component */}
+            <Tabs value={view} className="hidden">
+              <TabsContent value="month" className="mt-0">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <CalendarIcon className="h-5 w-5" />
+                      {date ? format(date, "MMMM d, yyyy") : "Select a date"}
+                    </CardTitle>
+                    <CardDescription>
+                      {selectedDateEvents.length === 0 
+                        ? "No events on this day" 
+                        : `${selectedDateEvents.length} event${selectedDateEvents.length > 1 ? "s" : ""}`}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {selectedDateEvents.length > 0 ? (
+                      renderEvents(selectedDateEvents)
+                    ) : (
+                      <div className="text-center py-8 text-muted-foreground">
+                        <CalendarIcon className="h-12 w-12 mx-auto mb-3 opacity-20" />
+                        <p>No events scheduled for this date</p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+              
+              <TabsContent value="upcoming" className="mt-0">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Gift className="h-5 w-5" />
+                      Upcoming Events
+                    </CardTitle>
+                    <CardDescription>
+                      The next {upcomingEvents.length} upcoming events
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {upcomingEvents.length > 0 ? (
+                      renderEvents(upcomingEvents)
+                    ) : (
+                      <div className="text-center py-8 text-muted-foreground">
+                        <Gift className="h-12 w-12 mx-auto mb-3 opacity-20" />
+                        <p>No upcoming events</p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </TabsContent>
+            </Tabs>
+            
+            {/* Display the actual content based on the selected tab */}
+            {view === "month" && (
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
@@ -187,9 +240,9 @@ const Calendar = () => {
                   )}
                 </CardContent>
               </Card>
-            </TabsContent>
+            )}
             
-            <TabsContent value="upcoming" className="mt-0">
+            {view === "upcoming" && (
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center gap-2">
@@ -211,7 +264,7 @@ const Calendar = () => {
                   )}
                 </CardContent>
               </Card>
-            </TabsContent>
+            )}
           </div>
         </div>
       </div>
