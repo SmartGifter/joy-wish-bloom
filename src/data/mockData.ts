@@ -1,6 +1,8 @@
 
 import { User, Event, GiftItem } from "../types";
 
+export type EventType = "birthday" | "wedding" | "housewarming" | "baby_shower" | "other";
+
 export const mockUsers: User[] = [
   {
     id: "user1",

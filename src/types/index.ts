@@ -7,6 +7,8 @@ export interface User {
   birthday: string;
   friends: string[];
   walletBalance: number;
+  // Added for future enhancements
+  relationship?: Record<string, "family" | "friend" | "colleague">;
 }
 
 export interface Event {
@@ -18,6 +20,8 @@ export interface Event {
   privacy: "public" | "private";
   participants: string[];
   rsvp: Record<string, "yes" | "no" | "maybe">;
+  description?: string;
+  location?: string;
 }
 
 export interface GiftItem {
@@ -31,6 +35,7 @@ export interface GiftItem {
   priority: "low" | "medium" | "high";
   contributors: Contribution[];
   eventId: string;
+  imageUrl?: string;
 }
 
 export interface Contribution {
@@ -38,4 +43,13 @@ export interface Contribution {
   amount: number;
   date: string;
   message?: string;
+}
+
+export interface WalletTransaction {
+  id: string;
+  userId: string;
+  amount: number;
+  type: 'deposit' | 'withdrawal' | 'contribution';
+  description: string;
+  timestamp: string;
 }

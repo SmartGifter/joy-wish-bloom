@@ -1,9 +1,9 @@
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useApp } from "@/context/AppContext";
 import { Button } from "@/components/ui/button";
 import UserAvatar from "./UserAvatar";
-import { Gift, Home, LogOut, PlusCircle, Wallet } from "lucide-react";
+import { Calendar, Gift, Home, LogOut, PlusCircle, User, Wallet } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface LayoutProps {
@@ -12,6 +12,7 @@ interface LayoutProps {
 
 const Layout = ({ children }: LayoutProps) => {
   const { currentUser, logout } = useApp();
+  const location = useLocation();
 
   return (
     <div className="min-h-screen flex flex-col bg-ivoryCream">
@@ -27,19 +28,34 @@ const Layout = ({ children }: LayoutProps) => {
           <div className="flex items-center gap-2">
             {currentUser ? (
               <>
-                <Button variant="ghost" size="sm" className="text-muted-foreground">
-                  <Wallet className="h-4 w-4 mr-1" />
-                  <span>${currentUser.walletBalance.toFixed(2)}</span>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-muted-foreground hidden md:flex"
+                  asChild
+                >
+                  <Link to="/profile">
+                    <Wallet className="h-4 w-4 mr-1" />
+                    <span>${currentUser.walletBalance.toFixed(2)}</span>
+                  </Link>
                 </Button>
                 
-                <Button variant="ghost" size="icon" asChild>
+                <Button variant="ghost" size="icon" asChild className="hidden md:inline-flex">
+                  <Link to="/calendar">
+                    <Calendar className="h-5 w-5" />
+                  </Link>
+                </Button>
+                
+                <Button variant="ghost" size="icon" asChild className="hidden md:inline-flex">
                   <Link to="/create-event">
                     <PlusCircle className="h-5 w-5 text-dustyRose" />
                   </Link>
                 </Button>
                 
                 <div className="flex items-center gap-2 ml-2">
-                  <UserAvatar user={currentUser} showHoverCard size="sm" />
+                  <Link to="/profile">
+                    <UserAvatar user={currentUser} showHoverCard size="sm" />
+                  </Link>
                   
                   <Button variant="ghost" size="icon" onClick={logout}>
                     <LogOut className="h-4 w-4 text-muted-foreground" />
@@ -47,9 +63,19 @@ const Layout = ({ children }: LayoutProps) => {
                 </div>
               </>
             ) : (
-              <Button className="gift-btn" asChild>
-                <Link to="/login">Sign In</Link>
-              </Button>
+              <div className="space-x-2">
+                {location.pathname !== "/login" && (
+                  <Button variant="outline" asChild>
+                    <Link to="/login">Sign In</Link>
+                  </Button>
+                )}
+                
+                {location.pathname !== "/signup" && (
+                  <Button className="gift-btn" asChild>
+                    <Link to="/signup">Sign Up</Link>
+                  </Button>
+                )}
+              </div>
             )}
           </div>
         </div>
@@ -71,17 +97,33 @@ const Layout = ({ children }: LayoutProps) => {
           
           {currentUser && (
             <div className="fixed bottom-0 left-0 right-0 py-2 px-4 bg-white border-t border-peachBlush/20 flex justify-center gap-6 md:hidden">
-              <Link to="/" className={cn("flex flex-col items-center text-xs font-medium")}>
+              <Link to="/" className={cn(
+                "flex flex-col items-center text-xs font-medium",
+                location.pathname === "/" && "text-dustyRose"
+              )}>
                 <Home className="h-5 w-5" />
                 <span>Home</span>
               </Link>
-              <Link to="/create-event" className={cn("flex flex-col items-center text-xs font-medium text-dustyRose")}>
+              <Link to="/calendar" className={cn(
+                "flex flex-col items-center text-xs font-medium",
+                location.pathname === "/calendar" && "text-dustyRose"
+              )}>
+                <Calendar className="h-5 w-5" />
+                <span>Calendar</span>
+              </Link>
+              <Link to="/create-event" className={cn(
+                "flex flex-col items-center text-xs font-medium",
+                location.pathname === "/create-event" && "text-dustyRose"
+              )}>
                 <PlusCircle className="h-5 w-5" />
                 <span>New</span>
               </Link>
-              <Link to="/profile" className={cn("flex flex-col items-center text-xs font-medium")}>
-                <Wallet className="h-5 w-5" />
-                <span>Wallet</span>
+              <Link to="/profile" className={cn(
+                "flex flex-col items-center text-xs font-medium",
+                location.pathname.startsWith("/profile") && "text-dustyRose"
+              )}>
+                <User className="h-5 w-5" />
+                <span>Profile</span>
               </Link>
             </div>
           )}

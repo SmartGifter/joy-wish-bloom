@@ -1,8 +1,9 @@
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { User, Event, GiftItem } from '../types';
 import { mockUsers, mockEvents, mockGiftItems } from '../data/mockData';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
 interface AppContextType {
   currentUser: User | null;
@@ -18,6 +19,7 @@ interface AppContextType {
   getUserById: (userId: string) => User | undefined;
   getEventById: (eventId: string) => Event | undefined;
   getGiftsByEventId: (eventId: string) => GiftItem[];
+  addFunds: (amount: number) => Promise<{ success: boolean; error?: string }>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -138,6 +140,67 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const getGiftsByEventId = (eventId: string) => {
     return giftItems.filter(item => item.eventId === eventId);
   };
+  
+  const addFunds = async (amount: number) => {
+    if (!currentUser) {
+      return { success: false, error: 'User not logged in' };
+    }
+    
+    try {
+      // This would normally call a Stripe integration
+      // For now, just simulate adding funds
+      setCurrentUser({
+        ...currentUser,
+        walletBalance: currentUser.walletBalance + amount
+      });
+      
+      setUsers(prevUsers =>
+        prevUsers.map(user => {
+          if (user.id === currentUser.id) {
+            return {
+              ...user,
+              walletBalance: user.walletBalance + amount
+            };
+          }
+          return user;
+        })
+      );
+      
+      toast.success(`Added $${amount.toFixed(2)} to your wallet!`);
+      return { success: true };
+    } catch (error: any) {
+      toast.error(`Failed to add funds: ${error.message}`);
+      return { success: false, error: error.message };
+    }
+  };
+
+  // Prepare for Supabase integration
+  useEffect(() => {
+    // Get the initial session
+    const getSession = async () => {
+      try {
+        const { data } = await supabase.auth.getSession();
+        console.log("Supabase session:", data.session);
+        // We'll implement proper auth when we set up Supabase auth
+      } catch (error) {
+        console.error("Error getting session:", error);
+      }
+    };
+    
+    getSession();
+    
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        console.log("Auth state changed:", event, session);
+        // We'll implement proper auth when we set up Supabase auth
+      }
+    );
+    
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   return (
     <AppContext.Provider value={{
@@ -153,7 +216,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       updateRSVP,
       getUserById,
       getEventById,
-      getGiftsByEventId
+      getGiftsByEventId,
+      addFunds
     }}>
       {children}
     </AppContext.Provider>
