@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -18,7 +19,16 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				nunito: ['Nunito', 'sans-serif'],
+			},
 			colors: {
+				peachBlush: "#FFDAD1",
+				dustyRose: "#E9AFA3",
+				ivoryCream: "#FFF9F0",
+				mossGreen: "#A9C8A7",
+				sunsetGold: "#FDD278",
+				warmBrown: "#9D6B53",
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -84,11 +94,26 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				confetti: {
+					'0%': { transform: 'translateY(0) rotateX(0) rotateY(0)' },
+					'100%': { transform: 'translateY(25vh) rotateX(360deg) rotateY(360deg)' }
+				},
+				shimmer: {
+					'0%': { backgroundPosition: '-200% 0' },
+					'100%': { backgroundPosition: '200% 0' }
+				},
+				float: {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-10px)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'confetti': 'confetti 2s ease-out forwards',
+				'shimmer': 'shimmer 2s infinite',
+				'float': 'float 3s ease-in-out infinite'
 			}
 		}
 	},
