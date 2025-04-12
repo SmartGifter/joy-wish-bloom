@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/context/AppContext";
@@ -14,9 +15,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Calendar, Gift, Loader2, Plus, Trash2, X } from "lucide-react";
+import { Calendar as CalendarIcon, Gift, Loader2, Plus, X } from "lucide-react";
 import { eventTypeIcons, giftSuggestions } from "@/data/mockData";
-import { GiftItem } from "@/types";
+import { Event, GiftItem } from "@/types";
+import { format } from "date-fns";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
 
 interface GiftFormData {
   title: string;
@@ -38,10 +47,10 @@ const EMPTY_GIFT_FORM: GiftFormData = {
 
 const CreateEvent = () => {
   const navigate = useNavigate();
-  const { currentUser, createEvent, addGiftItem, selectedFriends } = useApp();
+  const { currentUser, createEvent, addGiftItem, selectedFriends, setSelectedFriends } = useApp();
   
   const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const [type, setType] = useState<"birthday" | "wedding" | "housewarming" | "baby_shower" | "other">("birthday");
   const [privacy, setPrivacy] = useState<"public" | "private">("public");
   const [description, setDescription] = useState("");
@@ -88,32 +97,18 @@ const CreateEvent = () => {
     setIsSubmitting(true);
     
     try {
-      const formData = {
-        title,
-        date,
-        type,
-        description,
-        location,
-        privacy,
-        creator: currentUser.id,
-        participants: selectedFriends.map(f => f.id),
-        rsvp: {}
-      };
-
       // Create the event
-      const newEvent: Omit<Event, "id"> = {
-        title: formData.title,
-        date: formData.date.toISOString(),
-        type: formData.type,
-        description: formData.description,
-        location: formData.location,
-        privacy: formData.privacy,
+      const newEvent = createEvent({
+        title: title,
+        date: date.toISOString(),
+        type: type,
+        description: description,
+        location: location,
+        privacy: privacy,
         creator: currentUser.id,
         participants: selectedFriends.map(f => f.id),
         rsvp: {}
-      };
-
-      createEvent(newEvent);
+      });
 
       // Add user specified gifts
       gifts.forEach(gift => {
@@ -152,6 +147,9 @@ const CreateEvent = () => {
           });
       }
       
+      // Reset selected friends after creating event
+      setSelectedFriends([]);
+      
       // Navigate to the event details page
       navigate(`/event/${newEvent.id}`);
     } catch (error) {
@@ -167,7 +165,7 @@ const CreateEvent = () => {
         <Card className="border-peachBlush">
           <CardHeader className="text-center">
             <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-peachBlush/20 flex items-center justify-center">
-              <Calendar className="h-6 w-6 text-dustyRose" />
+              <CalendarIcon className="h-6 w-6 text-dustyRose" />
             </div>
             <CardTitle className="text-2xl font-bold text-warmBrown">Create a Celebration</CardTitle>
             <CardDescription>Share the joy with friends & family</CardDescription>
@@ -190,13 +188,30 @@ const CreateEvent = () => {
                 
                 <div className="space-y-2">
                   <Label htmlFor="date">Date</Label>
-                  <Input 
-                    id="date" 
-                    type="date" 
-                    value={date} 
-                    onChange={(e) => setDate(e.target.value)}
-                    required
-                  />
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        id="date"
+                        variant={"outline"}
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !date && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {date ? format(date, "PPP") : <span>Pick a date</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={date}
+                        onSelect={setDate}
+                        initialFocus
+                        className="p-3 pointer-events-auto"
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

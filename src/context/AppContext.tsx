@@ -10,9 +10,11 @@ interface AppContextType {
   users: User[];
   events: Event[];
   giftItems: GiftItem[];
+  selectedFriends: User[];
+  setSelectedFriends: (friends: User[]) => void;
   login: (email: string, name: string) => void;
   logout: () => void;
-  createEvent: (event: Omit<Event, "id">) => void;
+  createEvent: (event: Omit<Event, "id">) => Event;
   addGiftItem: (item: Omit<GiftItem, "id">) => void;
   contributeToGift: (giftId: string, contribution: { userId: string; amount: number; message?: string }) => void;
   updateRSVP: (eventId: string, userId: string, status: "yes" | "no" | "maybe") => void;
@@ -29,6 +31,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [users, setUsers] = useState<User[]>(mockUsers);
   const [events, setEvents] = useState<Event[]>(mockEvents);
   const [giftItems, setGiftItems] = useState<GiftItem[]>(mockGiftItems);
+  const [selectedFriends, setSelectedFriends] = useState<User[]>([]);
 
   const login = (email: string, name: string) => {
     const user = users.find(u => u.email === email);
@@ -54,16 +57,19 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     setCurrentUser(null);
+    setSelectedFriends([]);
     toast.info("You've been logged out");
   };
 
   const createEvent = (eventData: Omit<Event, "id">) => {
+    const newEventId = `event${events.length + 1}`;
     const newEvent: Event = {
       ...eventData,
-      id: `event${events.length + 1}`,
+      id: newEventId,
     };
     setEvents([...events, newEvent]);
     toast.success(`Event "${newEvent.title}" created!`);
+    return newEvent;
   };
 
   const addGiftItem = (itemData: Omit<GiftItem, "id">) => {
@@ -208,6 +214,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       users,
       events,
       giftItems,
+      selectedFriends,
+      setSelectedFriends,
       login,
       logout,
       createEvent,
