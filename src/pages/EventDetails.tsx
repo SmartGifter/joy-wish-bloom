@@ -5,6 +5,7 @@ import { useApp } from "@/context/AppContext";
 import Layout from "@/components/Layout";
 import GiftCard from "@/components/GiftCard";
 import UserAvatar from "@/components/UserAvatar";
+import InviteGuestsModal from "@/components/InviteGuestsModal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -29,6 +30,7 @@ const EventDetails = () => {
   const gifts = eventId ? getGiftsByEventId(eventId) : [];
   
   const [selectedRsvp, setSelectedRsvp] = useState<"yes" | "no" | "maybe" | null>(null);
+  const [showInviteModal, setShowInviteModal] = useState(false);
   
   useEffect(() => {
     if (event && currentUser) {
@@ -224,10 +226,14 @@ const EventDetails = () => {
             {/* Guest List */}
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Guests</CardTitle>
-                <CardDescription>
-                  {rsvpCounts.yes} attending · {rsvpCounts.maybe} maybe · {rsvpCounts.no} declined
-                </CardDescription>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="text-lg">Guests</CardTitle>
+                    <CardDescription>
+                      {rsvpCounts.yes} attending · {rsvpCounts.maybe} maybe · {rsvpCounts.no} declined
+                    </CardDescription>
+                  </div>
+                </div>
               </CardHeader>
               <CardContent>
                 {participants.length > 0 ? (
@@ -251,7 +257,11 @@ const EventDetails = () => {
                 )}
                 
                 {isCreator && (
-                  <Button variant="outline" className="w-full mt-4 text-dustyRose">
+                  <Button 
+                    variant="outline" 
+                    className="w-full mt-4 text-dustyRose"
+                    onClick={() => setShowInviteModal(true)}
+                  >
                     <Plus className="h-4 w-4 mr-1" /> Invite Guests
                   </Button>
                 )}
@@ -275,6 +285,15 @@ const EventDetails = () => {
           </div>
         </div>
       </div>
+      
+      {/* Invite Guests Modal */}
+      {eventId && (
+        <InviteGuestsModal 
+          eventId={eventId}
+          isOpen={showInviteModal}
+          onClose={() => setShowInviteModal(false)}
+        />
+      )}
     </Layout>
   );
 };

@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useApp } from "@/context/AppContext";
 import { Button } from "@/components/ui/button";
 import UserAvatar from "./UserAvatar";
-import { Calendar, Gift, Home, LogOut, PlusCircle, User, Wallet, Users } from "lucide-react";
+import { Calendar, Gift, Home, LogOut, PlusCircle, User, Users, Wallet } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotificationDropdown from "./NotificationDropdown";
 
@@ -35,7 +35,7 @@ const Layout = ({ children }: LayoutProps) => {
                   className="text-muted-foreground hidden md:flex"
                   asChild
                 >
-                  <Link to="/profile">
+                  <Link to="/wallet">
                     <Wallet className="h-4 w-4 mr-1" />
                     <span>${currentUser.walletBalance.toFixed(2)}</span>
                   </Link>
@@ -142,6 +142,13 @@ const Layout = ({ children }: LayoutProps) => {
               )}>
                 <User className="h-5 w-5" />
                 <span>Profile</span>
+              </Link>
+              <Link to="/wallet" className={cn(
+                "flex flex-col items-center text-xs font-medium",
+                location.pathname === "/wallet" && "text-dustyRose"
+              )}>
+                <Wallet className="h-5 w-5" />
+                <span>Wallet</span>
               </Link>
             </div>
           )}

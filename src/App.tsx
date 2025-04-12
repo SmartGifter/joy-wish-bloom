@@ -14,6 +14,7 @@ import EventDetails from "./pages/EventDetails";
 import Calendar from "./pages/Calendar";
 import Profile from "./pages/Profile";
 import Community from "./pages/Community";
+import Wallet from "./pages/Wallet";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/:userId" element={<Profile />} />
             <Route path="/community" element={<Community />} />
+            <Route path="/wallet" element={<Wallet />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
