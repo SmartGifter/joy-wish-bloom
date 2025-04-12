@@ -1,6 +1,6 @@
-# Joy Wish Bloom - Gift Management Platform
+# SmartGifter - Gift Management Platform
 
-Joy Wish Bloom is a comprehensive gift management platform that helps users organize, plan, and manage gifts for their loved ones. The platform provides features for managing events, gifts, savings, and recurring gift deliveries.
+SmartGifter is a comprehensive gift management platform that helps users organize, plan, and manage gifts for their loved ones. The platform provides features for managing events, gifts, savings, and recurring gift deliveries.
 
 ## Features
 
