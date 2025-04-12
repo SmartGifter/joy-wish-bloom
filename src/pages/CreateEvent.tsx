@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/context/AppContext";
@@ -39,7 +38,7 @@ const EMPTY_GIFT_FORM: GiftFormData = {
 
 const CreateEvent = () => {
   const navigate = useNavigate();
-  const { currentUser, createEvent, addGiftItem } = useApp();
+  const { currentUser, createEvent, addGiftItem, selectedFriends } = useApp();
   
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
@@ -89,21 +88,33 @@ const CreateEvent = () => {
     setIsSubmitting(true);
     
     try {
-      // Create the event
-      const eventId = `event${Date.now()}`;
-      createEvent({
-        id: eventId, // Temporary ID that will be replaced by the context
+      const formData = {
         title,
         date,
         type,
-        creator: currentUser.id,
-        privacy,
-        participants: [], 
-        rsvp: {},
         description,
-        location
-      });
-      
+        location,
+        privacy,
+        creator: currentUser.id,
+        participants: selectedFriends.map(f => f.id),
+        rsvp: {}
+      };
+
+      // Create the event
+      const newEvent: Omit<Event, "id"> = {
+        title: formData.title,
+        date: formData.date.toISOString(),
+        type: formData.type,
+        description: formData.description,
+        location: formData.location,
+        privacy: formData.privacy,
+        creator: currentUser.id,
+        participants: selectedFriends.map(f => f.id),
+        rsvp: {}
+      };
+
+      createEvent(newEvent);
+
       // Add user specified gifts
       gifts.forEach(gift => {
         if (gift.title && gift.price) {
@@ -115,7 +126,7 @@ const CreateEvent = () => {
             url: gift.url,
             status: "available",
             priority: gift.priority,
-            eventId: eventId,
+            eventId: newEvent.id,
             contributors: []
           });
         }
@@ -135,14 +146,14 @@ const CreateEvent = () => {
               url: "",
               status: "available",
               priority: "medium",
-              eventId: eventId,
+              eventId: newEvent.id,
               contributors: []
             });
           });
       }
       
       // Navigate to the event details page
-      navigate(`/event/${eventId}`);
+      navigate(`/event/${newEvent.id}`);
     } catch (error) {
       console.error("Error creating event:", error);
     } finally {
