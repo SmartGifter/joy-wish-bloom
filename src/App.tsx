@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,6 +14,10 @@ import Calendar from "./pages/Calendar";
 import Profile from "./pages/Profile";
 import Community from "./pages/Community";
 import Wallet from "./pages/Wallet";
+import BirthdaySavingsIndex from "./pages/BirthdaySavingsIndex";
+import BirthdaySavingsPage from "./pages/BirthdaySavingsPage";
+import RecurringGiftsIndex from "./pages/RecurringGiftsIndex";
+import RecurringGiftsPage from "./pages/RecurringGiftsPage";
 
 const queryClient = new QueryClient();
 
@@ -36,7 +39,10 @@ const App = () => (
             <Route path="/profile/:userId" element={<Profile />} />
             <Route path="/community" element={<Community />} />
             <Route path="/wallet" element={<Wallet />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="/birthday-savings" element={<BirthdaySavingsIndex />} />
+            <Route path="/birthday-savings/:recipientId" element={<BirthdaySavingsPage />} />
+            <Route path="/recurring-gifts" element={<RecurringGiftsIndex />} />
+            <Route path="/recurring-gifts/:recipientId" element={<RecurringGiftsPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

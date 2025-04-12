@@ -1,9 +1,8 @@
-
 import { Link, useLocation } from "react-router-dom";
 import { useApp } from "@/context/AppContext";
 import { Button } from "@/components/ui/button";
 import UserAvatar from "./UserAvatar";
-import { Calendar, Gift, Home, LogOut, PlusCircle, User, Users, Wallet } from "lucide-react";
+import { Calendar, Gift, Home, LogOut, PlusCircle, User, Users, Wallet, PiggyBank, Repeat } from "lucide-react";
 import { cn } from "@/lib/utils";
 import NotificationDropdown from "./NotificationDropdown";
 
@@ -50,6 +49,18 @@ const Layout = ({ children }: LayoutProps) => {
                 <Button variant="ghost" size="icon" asChild className="hidden md:inline-flex">
                   <Link to="/community">
                     <Users className="h-5 w-5" />
+                  </Link>
+                </Button>
+
+                <Button variant="ghost" size="icon" asChild className="hidden md:inline-flex">
+                  <Link to="/birthday-savings">
+                    <PiggyBank className="h-5 w-5" />
+                  </Link>
+                </Button>
+
+                <Button variant="ghost" size="icon" asChild className="hidden md:inline-flex">
+                  <Link to="/recurring-gifts">
+                    <Repeat className="h-5 w-5" />
                   </Link>
                 </Button>
                 
@@ -128,6 +139,20 @@ const Layout = ({ children }: LayoutProps) => {
               )}>
                 <Users className="h-5 w-5" />
                 <span>Community</span>
+              </Link>
+              <Link to="/birthday-savings" className={cn(
+                "flex flex-col items-center text-xs font-medium",
+                location.pathname.startsWith("/birthday-savings") && "text-dustyRose"
+              )}>
+                <PiggyBank className="h-5 w-5" />
+                <span>Savings</span>
+              </Link>
+              <Link to="/recurring-gifts" className={cn(
+                "flex flex-col items-center text-xs font-medium",
+                location.pathname.startsWith("/recurring-gifts") && "text-dustyRose"
+              )}>
+                <Repeat className="h-5 w-5" />
+                <span>Recurring</span>
               </Link>
               <Link to="/create-event" className={cn(
                 "flex flex-col items-center text-xs font-medium",

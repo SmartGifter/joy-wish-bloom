@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { User, Event, GiftItem } from '../types';
 import { mockUsers, mockEvents, mockGiftItems } from '../data/mockData';
@@ -11,6 +10,7 @@ interface AppContextType {
   events: Event[];
   giftItems: GiftItem[];
   selectedFriends: User[];
+  recipients: User[];
   setSelectedFriends: (friends: User[]) => void;
   login: (email: string, name: string) => void;
   logout: () => void;
@@ -32,6 +32,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [events, setEvents] = useState<Event[]>(mockEvents);
   const [giftItems, setGiftItems] = useState<GiftItem[]>(mockGiftItems);
   const [selectedFriends, setSelectedFriends] = useState<User[]>([]);
+
+  // For now, use all users as potential recipients
+  const recipients = users;
 
   const login = (email: string, name: string) => {
     const user = users.find(u => u.email === email);
@@ -215,6 +218,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       events,
       giftItems,
       selectedFriends,
+      recipients,
       setSelectedFriends,
       login,
       logout,

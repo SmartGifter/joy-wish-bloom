@@ -289,8 +289,7 @@ const CelebrationMessages = () => {
       eventType: "birthday",
       message: "Check out this photo from last year's celebration. Here's to another amazing year, Alex!",
       date: "2024-05-13",
-      mediaType: "image",
-      mediaUrl: "/placeholder.svg"
+      mediaType: "text"
     },
     
     // Wedding messages
@@ -310,8 +309,7 @@ const CelebrationMessages = () => {
       eventType: "wedding",
       message: "Emma, I'm so excited for your wedding! Here's a throwback photo of us from college. Can't believe how far we've come!",
       date: "2024-09-05",
-      mediaType: "image",
-      mediaUrl: "/placeholder.svg"
+      mediaType: "text",
     },
     {
       id: 7,
@@ -321,7 +319,7 @@ const CelebrationMessages = () => {
       message: "Emma and Jake, congratulations on your big day! I've prepared a special message for both of you.",
       date: "2024-09-06",
       mediaType: "video",
-      mediaUrl: "https://player.vimeo.com/video/238447560?background=1"
+      mediaUrl: "https://player.vimeo.com/video/76979871?background=1"
     },
     
     // Housewarming messages
@@ -341,8 +339,8 @@ const CelebrationMessages = () => {
       eventType: "housewarming",
       message: "Michael, so excited for your new place! I can't wait to see it in person. Here's a little something to brighten up your space.",
       date: "2024-07-12",
-      mediaType: "image",
-      mediaUrl: "/placeholder.svg"
+      mediaType: "video",
+      mediaUrl: "https://player.vimeo.com/video/76979871?background=1"
     },
     {
       id: 10,
@@ -352,7 +350,7 @@ const CelebrationMessages = () => {
       message: "Hey Michael! I put together this short video tour of my favorite houseplants that would look perfect in your new home.",
       date: "2024-07-14",
       mediaType: "video",
-      mediaUrl: "https://player.vimeo.com/video/353423371?background=1"
+      mediaUrl: "https://player.vimeo.com/video/76979871?background=1"
     },
     
     // Baby shower messages
@@ -372,18 +370,8 @@ const CelebrationMessages = () => {
       eventType: "baby_shower",
       message: "What a beautiful baby shower, Sarah! Here's a picture from the celebration. You're absolutely glowing!",
       date: "2024-06-22",
-      mediaType: "image",
-      mediaUrl: "/placeholder.svg"
-    },
-    {
-      id: 13,
-      sender: "user3",
-      recipient: "user4",
-      eventType: "baby_shower",
-      message: "Sarah, I couldn't be at your shower but wanted to send this video message to congratulate you and your growing family!",
-      date: "2024-06-21",
       mediaType: "video",
-      mediaUrl: "https://player.vimeo.com/video/384611645?background=1"
+      mediaUrl: "https://player.vimeo.com/video/76979871?background=1"
     }
   ];
 

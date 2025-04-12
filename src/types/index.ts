@@ -1,4 +1,3 @@
-
 export interface User {
   id: string;
   name: string;
@@ -52,4 +51,29 @@ export interface WalletTransaction {
   type: 'deposit' | 'withdrawal' | 'contribution';
   description: string;
   timestamp: string;
+}
+
+export interface BirthdaySavings {
+  id: string;
+  userId: string;
+  friendId: string;
+  targetAmount: number;
+  monthlyAmount: number;
+  startDate: string;
+  endDate: string;
+  currentBalance: number;
+  status: 'active' | 'completed' | 'cancelled';
+  lastNotificationDate: string;
+}
+
+export interface RecurringGift {
+  id: string;
+  userId: string;
+  recipientId: string;
+  giftType: string;
+  frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
+  startDate: string;
+  nextDeliveryDate: string;
+  status: 'active' | 'paused' | 'cancelled';
+  notes?: string;
 }

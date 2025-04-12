@@ -9,7 +9,37 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      birthday_savings: {
+        Row: {
+          id: string
+          userId: string
+          friendId: string
+          targetAmount: number
+          monthlyAmount: number
+          startDate: string
+          endDate: string
+          currentBalance: number
+          status: 'active' | 'completed' | 'cancelled'
+          lastNotificationDate: string
+        }
+        Insert: Omit<Database['public']['Tables']['birthday_savings']['Row'], 'id'>
+        Update: Partial<Database['public']['Tables']['birthday_savings']['Row']>
+      }
+      recurring_gifts: {
+        Row: {
+          id: string
+          userId: string
+          recipientId: string
+          giftType: string
+          frequency: 'daily' | 'weekly' | 'monthly' | 'yearly'
+          startDate: string
+          nextDeliveryDate: string
+          status: 'active' | 'paused' | 'cancelled'
+          notes?: string
+        }
+        Insert: Omit<Database['public']['Tables']['recurring_gifts']['Row'], 'id'>
+        Update: Partial<Database['public']['Tables']['recurring_gifts']['Row']>
+      }
     }
     Views: {
       [_ in never]: never

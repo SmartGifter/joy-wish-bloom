@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { useApp } from "@/context/AppContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Calendar, Gift, Users, Wallet } from "lucide-react";
+import { Calendar, Gift, Users, Wallet, UserX, ArrowLeft } from "lucide-react";
 import { User } from "@/types";
 import EventCard from "@/components/EventCard";
 import { format } from "date-fns";
@@ -197,38 +196,125 @@ const Profile = () => {
   const { currentUser, getUserById } = useApp();
   const [activeTab, setActiveTab] = useState("profile");
   
-  const user = userId ? getUserById(userId) : currentUser;
+  const profileUser = userId ? getUserById(userId) : currentUser;
   
-  if (!user) {
+  if (!currentUser) {
     return (
       <Layout>
-        <div className="max-w-4xl mx-auto text-center py-12">
-          <h2 className="text-2xl font-bold mb-2">User not found</h2>
-          <p className="text-muted-foreground">The user you're looking for doesn't exist</p>
+        <div className="container max-w-2xl mx-auto space-y-6">
+          <Card className="text-center py-8">
+            <CardHeader>
+              <div className="flex justify-center mb-4">
+                <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
+                  <UserX className="h-6 w-6 text-muted-foreground" />
+                </div>
+              </div>
+              <CardTitle>Sign in Required</CardTitle>
+              <CardDescription>
+                Please sign in to view profiles
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-x-4">
+              <Button 
+                variant="secondary" 
+                className="bg-peachBlush hover:bg-peachBlush/90 text-warmBrown"
+                asChild
+              >
+                <Link to="/login">
+                  Sign In
+                </Link>
+              </Button>
+              <Button 
+                variant="outline"
+                asChild
+              >
+                <Link to="/signup">
+                  Create Account
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </Layout>
     );
   }
-  
-  const isCurrentUser = currentUser && user.id === currentUser.id;
+
+  if (userId && !profileUser) {
+    return (
+      <Layout>
+        <div className="container max-w-2xl mx-auto space-y-6">
+          <Button 
+            variant="ghost" 
+            className="text-muted-foreground"
+            asChild
+          >
+            <Link to="/">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Home
+            </Link>
+          </Button>
+
+          <Card className="text-center py-8">
+            <CardHeader>
+              <div className="flex justify-center mb-4">
+                <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
+                  <UserX className="h-6 w-6 text-muted-foreground" />
+                </div>
+              </div>
+              <CardTitle>User Not Found</CardTitle>
+              <CardDescription>
+                The user you're looking for doesn't exist or has been removed
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button 
+                variant="secondary" 
+                className="bg-peachBlush hover:bg-peachBlush/90 text-warmBrown"
+                asChild
+              >
+                <Link to="/">
+                  Return Home
+                </Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </Layout>
+    );
+  }
+
+  const isCurrentUser = currentUser && profileUser.id === currentUser.id;
 
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto">
+      <div className="container max-w-2xl mx-auto space-y-6">
+        {userId && (
+          <Button 
+            variant="ghost" 
+            className="text-muted-foreground"
+            asChild
+          >
+            <Link to="/">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Home
+            </Link>
+          </Button>
+        )}
+
         <Card className="mb-6 overflow-hidden">
           <div className="h-32 bg-gradient-to-r from-peachBlush to-dustyRose opacity-30" />
           <CardContent className="px-6 pb-6 -mt-12">
             <div className="flex flex-col sm:flex-row items-center sm:items-end gap-4">
               <Avatar className="h-24 w-24 border-4 border-white shadow-md">
-                <AvatarImage src={user.profilePhoto} />
+                <AvatarImage src={profileUser.profilePhoto} />
                 <AvatarFallback className="text-xl bg-dustyRose text-white">
-                  {user.name.split(" ").map(n => n[0]).join("")}
+                  {profileUser.name.split(" ").map(n => n[0]).join("")}
                 </AvatarFallback>
               </Avatar>
               
               <div className="flex-1 text-center sm:text-left">
-                <h1 className="text-2xl font-bold text-warmBrown">{user.name}</h1>
-                <p className="text-muted-foreground">{user.email}</p>
+                <h1 className="text-2xl font-bold text-warmBrown">{profileUser.name}</h1>
+                <p className="text-muted-foreground">{profileUser.email}</p>
               </div>
               
               {isCurrentUser && (
@@ -246,15 +332,15 @@ const Profile = () => {
           </TabsList>
           
           <TabsContent value="profile" className="mt-0">
-            <ProfileTab user={user} />
+            <ProfileTab user={profileUser} />
           </TabsContent>
           
           <TabsContent value="events" className="mt-0">
-            <EventsTab user={user} />
+            <EventsTab user={profileUser} />
           </TabsContent>
           
           <TabsContent value="wallet" className="mt-0">
-            <WalletTab user={user} />
+            <WalletTab user={profileUser} />
           </TabsContent>
         </Tabs>
       </div>
