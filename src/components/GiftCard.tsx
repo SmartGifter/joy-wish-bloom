@@ -164,8 +164,8 @@ const GiftCard = ({ item, className }: GiftCardProps) => {
               </DialogDescription>
             </DialogHeader>
             
-            <div className="space-y-4 py-2">
-              <div className="space-y-2">
+            <div className="space-y-3 py-2">
+              <div className="space-y-1">
                 <div className="flex justify-between text-sm">
                   <span className="font-medium">Gift Price</span>
                   <span>${item.price.toFixed(2)}</span>
@@ -187,7 +187,7 @@ const GiftCard = ({ item, className }: GiftCardProps) => {
                   <TabsTrigger value="suggested">AI Suggestions</TabsTrigger>
                 </TabsList>
                 
-                <TabsContent value="manual" className="space-y-4">
+                <TabsContent value="manual" className="space-y-3 pt-2">
                   <div className="space-y-1">
                     <label htmlFor="amount" className="text-sm font-medium">
                       Your Contribution
@@ -211,10 +211,10 @@ const GiftCard = ({ item, className }: GiftCardProps) => {
                   </div>
                 </TabsContent>
                 
-                <TabsContent value="suggested" className="space-y-4">
+                <TabsContent value="suggested" className="space-y-3 pt-2">
                   <div>
-                    <p className="text-sm mb-3">
-                      Based on the gift price and remaining amount, here are some suggested contributions:
+                    <p className="text-xs mb-2">
+                      Based on the gift price and remaining amount:
                     </p>
                     <RadioGroup 
                       defaultValue={suggestedAmounts[0]?.toString()} 
@@ -222,32 +222,32 @@ const GiftCard = ({ item, className }: GiftCardProps) => {
                       className="space-y-2"
                     >
                       {suggestedAmounts.map((amount, index) => (
-                        <div key={index} className="flex items-center space-x-3 border p-3 rounded-md">
+                        <div key={index} className="flex items-center space-x-2 border p-2 rounded-md">
                           <RadioGroupItem value={amount.toString()} id={`amount-${index}`} />
                           <Label htmlFor={`amount-${index}`} className="flex-1">
-                            <div className="font-medium">${amount.toFixed(2)}</div>
+                            <div className="font-medium text-sm">${amount.toFixed(2)}</div>
                             <div className="text-xs text-muted-foreground">
                               {index === 0 ? "Perfect starter contribution" : 
                                index === 1 ? "Great mid-range gift" : 
                                "Generous contribution!"}
                             </div>
                           </Label>
-                          <Sparkles size={16} className="text-sunsetGold" />
+                          <Sparkles size={14} className="text-sunsetGold" />
                         </div>
                       ))}
                       
-                      <div className="flex items-center space-x-3 border p-3 rounded-md">
+                      <div className="flex items-center space-x-2 border p-2 rounded-md">
                         <RadioGroupItem value="custom" id="amount-custom" />
                         <Label htmlFor="amount-custom" className="flex-1">
-                          <div className="font-medium">Custom amount</div>
+                          <div className="font-medium text-sm">Custom amount</div>
                         </Label>
                         {contributionOption === "suggested" && (
                           <div className="relative w-20">
-                            <span className="absolute left-2 top-2 text-xs">$</span>
+                            <span className="absolute left-2 top-1.5 text-xs">$</span>
                             <Input 
                               type="number"
                               placeholder="0.00"
-                              className="pl-5 h-8" 
+                              className="pl-5 h-7 text-sm" 
                               value={amount}
                               onChange={(e) => setAmount(e.target.value)}
                             />
@@ -259,7 +259,7 @@ const GiftCard = ({ item, className }: GiftCardProps) => {
                 </TabsContent>
               </Tabs>
               
-              <div className="space-y-3">
+              <div className="space-y-2">
                 <div className="space-y-1">
                   <label htmlFor="message" className="text-sm font-medium">
                     Add a Message
@@ -268,42 +268,42 @@ const GiftCard = ({ item, className }: GiftCardProps) => {
                     id="message" 
                     placeholder="Send your wishes..."
                     className="resize-none"
-                    rows={3}
+                    rows={2}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                   />
                 </div>
                 
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-1">
                   <p className="text-sm font-medium">Add Media (Optional)</p>
                   <div className="flex gap-2">
                     <Button 
                       type="button" 
                       variant="outline" 
                       size="sm"
-                      className={cn("flex-1", mediaType === "photo" && "border-dustyRose text-dustyRose")}
+                      className={cn("flex-1 h-8", mediaType === "photo" && "border-dustyRose text-dustyRose")}
                       onClick={() => handleMediaUpload("photo")}
                     >
-                      <Upload className="h-4 w-4 mr-1" /> Photo
+                      <Upload className="h-3 w-3 mr-1" /> Photo
                     </Button>
                     <Button 
                       type="button" 
                       variant="outline" 
                       size="sm"
-                      className={cn("flex-1", mediaType === "video" && "border-dustyRose text-dustyRose")}
+                      className={cn("flex-1 h-8", mediaType === "video" && "border-dustyRose text-dustyRose")}
                       onClick={() => handleMediaUpload("video")}
                     >
-                      <Upload className="h-4 w-4 mr-1" /> Video
+                      <Upload className="h-3 w-3 mr-1" /> Video
                     </Button>
                   </div>
                   
                   {mediaType === "photo" && (
                     <div className="border rounded-md p-2 mt-1">
-                      <img src={mediaUrl} alt="Preview" className="w-full h-24 object-cover" />
+                      <img src={mediaUrl} alt="Preview" className="w-full h-20 object-cover" />
                       <Button 
                         variant="ghost" 
                         size="sm" 
-                        className="w-full mt-1 text-xs text-muted-foreground"
+                        className="w-full mt-1 text-xs text-muted-foreground h-6"
                         onClick={() => {
                           setMediaType("none");
                           setMediaUrl("");
@@ -325,7 +325,7 @@ const GiftCard = ({ item, className }: GiftCardProps) => {
                       <Button 
                         variant="ghost" 
                         size="sm" 
-                        className="w-full mt-1 text-xs text-muted-foreground"
+                        className="w-full mt-1 text-xs text-muted-foreground h-6"
                         onClick={() => {
                           setMediaType("none"); 
                           setMediaUrl("");
@@ -341,10 +341,11 @@ const GiftCard = ({ item, className }: GiftCardProps) => {
             
             <DialogFooter className="flex-col sm:flex-row gap-2">
               <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button variant="outline" size="sm">Cancel</Button>
               </DialogClose>
               <Button 
                 className="gift-btn w-full sm:w-auto" 
+                size="sm"
                 onClick={handleContribute}
                 disabled={!amount || isNaN(Number(amount)) || Number(amount) <= 0 || (currentUser && Number(amount) > currentUser.walletBalance)}
               >

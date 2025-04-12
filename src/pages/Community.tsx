@@ -34,7 +34,7 @@ const Community = () => {
   
   return (
     <Layout>
-      <div className="space-y-6">
+      <div className="space-y-6 max-w-4xl mx-auto">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-bold text-warmBrown">Community</h1>
         </div>
@@ -66,8 +66,8 @@ const Community = () => {
             
             {Object.keys(eventsByMonth).length === 0 && (
               <Card>
-                <CardContent className="text-center py-8">
-                  <Calendar className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                <CardContent className="text-center py-6">
+                  <Calendar className="w-10 h-10 mx-auto text-muted-foreground mb-3" />
                   <p className="text-muted-foreground">No upcoming community events found.</p>
                 </CardContent>
               </Card>
@@ -99,10 +99,10 @@ const Community = () => {
               eventsByMonth[month].some(e => e.type === "birthday")
             ) && (
               <Card>
-                <CardContent className="text-center py-8">
-                  <CakeSlice className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                <CardContent className="text-center py-6">
+                  <CakeSlice className="w-10 h-10 mx-auto text-muted-foreground mb-3" />
                   <p className="text-muted-foreground">No upcoming birthday celebrations found.</p>
-                  <Button variant="outline" className="mt-4">
+                  <Button variant="outline" className="mt-3" size="sm">
                     <CakeSlice className="h-4 w-4 mr-2" /> View Recent Birthday Messages
                   </Button>
                 </CardContent>
@@ -135,10 +135,10 @@ const Community = () => {
               eventsByMonth[month].some(e => e.type === "wedding")
             ) && (
               <Card>
-                <CardContent className="text-center py-8">
-                  <PartyPopper className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                <CardContent className="text-center py-6">
+                  <PartyPopper className="w-10 h-10 mx-auto text-muted-foreground mb-3" />
                   <p className="text-muted-foreground">No upcoming wedding celebrations found.</p>
-                  <Button variant="outline" className="mt-4">
+                  <Button variant="outline" className="mt-3" size="sm">
                     <PartyPopper className="h-4 w-4 mr-2" /> View Recent Wedding Wishes
                   </Button>
                 </CardContent>
@@ -171,10 +171,10 @@ const Community = () => {
               eventsByMonth[month].some(e => e.type === "housewarming")
             ) && (
               <Card>
-                <CardContent className="text-center py-8">
-                  <Home className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                <CardContent className="text-center py-6">
+                  <Home className="w-10 h-10 mx-auto text-muted-foreground mb-3" />
                   <p className="text-muted-foreground">No upcoming housewarming celebrations found.</p>
-                  <Button variant="outline" className="mt-4">
+                  <Button variant="outline" className="mt-3" size="sm">
                     <Home className="h-4 w-4 mr-2" /> View Recent Housewarming Messages
                   </Button>
                 </CardContent>
@@ -182,7 +182,7 @@ const Community = () => {
             )}
           </TabsContent>
           
-          <TabsContent value="messages" className="space-y-6">
+          <TabsContent value="messages" className="space-y-4">
             <CelebrationMessages />
           </TabsContent>
         </Tabs>
@@ -198,44 +198,44 @@ const CommunityEvent = ({ event }) => {
   const eventDate = new Date(event.date);
   
   return (
-    <div className="border border-border rounded-xl p-4 bg-card hover:border-peachBlush transition-colors">
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex gap-4">
+    <div className="border border-border rounded-lg p-3 bg-card hover:border-peachBlush transition-colors">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex gap-3">
           <div className="flex flex-col items-center">
-            <div className="w-12 h-12 rounded-full bg-peachBlush/20 flex items-center justify-center">
-              <span className="text-xl" role="img" aria-label={event.type}>
+            <div className="w-10 h-10 rounded-full bg-peachBlush/20 flex items-center justify-center">
+              <span className="text-lg" role="img" aria-label={event.type}>
                 {eventTypeIcons[event.type] || "🎁"}
               </span>
             </div>
           </div>
           
           <div>
-            <h3 className="font-medium text-lg">{event.title}</h3>
+            <h3 className="font-medium">{event.title}</h3>
             <div className="flex items-center gap-1 text-muted-foreground">
               <Calendar className="h-3 w-3" />
-              <span className="text-sm">{format(eventDate, 'EEEE, MMM d')}</span>
+              <span className="text-xs">{format(eventDate, 'EEEE, MMM d')}</span>
             </div>
             
             <div className="flex items-center mt-1 gap-1">
-              <span className="text-sm text-muted-foreground">by</span>
+              <span className="text-xs text-muted-foreground">by</span>
               {creator && (
                 <div className="flex items-center gap-1">
                   <UserAvatar user={creator} size="sm" />
-                  <span className="text-sm font-medium">{creator.name}</span>
+                  <span className="text-xs font-medium">{creator.name}</span>
                 </div>
               )}
             </div>
             
-            <div className="mt-3 flex gap-3">
-              <Button variant="outline" size="sm" className="text-dustyRose">
+            <div className="mt-2 flex flex-wrap gap-2">
+              <Button variant="outline" size="sm" className="text-dustyRose text-xs h-7 px-2">
                 <Gift className="h-3 w-3 mr-1" />
                 View Gifts
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="text-xs h-7 px-2">
                 <MessageCircle className="h-3 w-3 mr-1" />
                 Send Wishes
               </Button>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="text-xs h-7 px-2">
                 <VideoIcon className="h-3 w-3 mr-1" />
                 Record Video
               </Button>
@@ -398,319 +398,138 @@ const CelebrationMessages = () => {
   const housewarmingRecipients = [...new Set(getMessagesByType("housewarming").map(m => m.recipient))];
   const babyShowerRecipients = [...new Set(getMessagesByType("baby_shower").map(m => m.recipient))];
 
-  return (
-    <div className="space-y-8">
-      {/* Birthday Messages */}
-      <div className="space-y-6">
-        <h2 className="text-2xl font-bold text-warmBrown flex items-center gap-2">
-          <CakeSlice className="h-5 w-5" /> Birthday Celebrations
-        </h2>
-        
-        {birthdayRecipients.map(recipient => {
-          const recipientUser = users.find(user => user.id === recipient);
-          const recipientMessages = messages.filter(m => m.eventType === "birthday" && m.recipient === recipient);
-          
-          return (
-            <Card key={recipient}>
-              <CardHeader>
-                <CardTitle className="text-xl">
-                  Birthday Wishes for {recipientUser?.name || "Friend"}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  {recipientMessages.map(message => {
-                    const sender = users.find(user => user.id === message.sender);
-                    return (
-                      <div key={message.id} className="p-4 rounded-lg bg-muted/30 space-y-3">
-                        <div className="flex items-center gap-3">
-                          {sender && <UserAvatar user={sender} size="sm" />}
-                          <div>
-                            <p className="font-medium">{sender?.name}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {format(new Date(message.date), 'MMMM d, yyyy')}
-                            </p>
-                          </div>
-                        </div>
-                        
-                        <p className="text-sm leading-relaxed">{message.message}</p>
-                        
-                        {message.mediaType === "image" && (
-                          <div className="mt-3 rounded-lg overflow-hidden border border-border">
-                            <img 
-                              src={message.mediaUrl} 
-                              alt="Celebration photo" 
-                              className="w-full h-auto max-h-64 object-cover"
-                            />
-                          </div>
-                        )}
-                        
-                        {message.mediaType === "video" && (
-                          <div className="mt-3 rounded-lg overflow-hidden border border-border aspect-video">
-                            <iframe
-                              src={message.mediaUrl}
-                              className="w-full h-full"
-                              frameBorder="0"
-                              allow="autoplay; fullscreen; picture-in-picture"
-                              allowFullScreen
-                              title="Birthday message video"
-                            ></iframe>
-                          </div>
-                        )}
-                        
-                        <div className="flex items-center gap-2 pt-2">
-                          <Button variant="ghost" size="sm" className="text-muted-foreground">
-                            <Heart className="h-3.5 w-3.5 mr-1" />
-                            Like
-                          </Button>
-                          <Button variant="ghost" size="sm" className="text-muted-foreground">
-                            <MessageCircle className="h-3.5 w-3.5 mr-1" />
-                            Reply
-                          </Button>
-                        </div>
-                      </div>
-                    );
-                  })}
+  const renderMessages = (messageGroup, recipientId) => {
+    const recipientUser = users.find(user => user.id === recipientId);
+    const recipientMessages = messageGroup.filter(m => m.recipient === recipientId);
+    
+    return (
+      <Card key={recipientId} className="mb-4">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg">
+            Wishes for {recipientUser?.name || "Friend"}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-3">
+            {recipientMessages.map(message => {
+              const sender = users.find(user => user.id === message.sender);
+              return (
+                <div key={message.id} className="p-3 rounded-lg bg-muted/30 space-y-2">
+                  <div className="flex items-center gap-2">
+                    {sender && <UserAvatar user={sender} size="sm" />}
+                    <div>
+                      <p className="font-medium text-sm">{sender?.name}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {format(new Date(message.date), 'MMM d, yyyy')}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <p className="text-sm leading-relaxed">{message.message}</p>
+                  
+                  {message.mediaType === "image" && (
+                    <div className="mt-2 rounded-lg overflow-hidden border border-border">
+                      <img 
+                        src={message.mediaUrl} 
+                        alt="Celebration photo" 
+                        className="w-full h-auto max-h-48 object-cover"
+                      />
+                    </div>
+                  )}
+                  
+                  {message.mediaType === "video" && (
+                    <div className="mt-2 rounded-lg overflow-hidden border border-border aspect-video">
+                      <iframe
+                        src={message.mediaUrl}
+                        className="w-full h-full"
+                        frameBorder="0"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowFullScreen
+                        title="Birthday message video"
+                      ></iframe>
+                    </div>
+                  )}
+                  
+                  <div className="flex items-center gap-2 pt-1">
+                    <Button variant="ghost" size="sm" className="text-muted-foreground h-7 text-xs">
+                      <Heart className="h-3 w-3 mr-1" />
+                      Like
+                    </Button>
+                    <Button variant="ghost" size="sm" className="text-muted-foreground h-7 text-xs">
+                      <MessageCircle className="h-3 w-3 mr-1" />
+                      Reply
+                    </Button>
+                  </div>
                 </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
+
+  return (
+    <div className="space-y-4">
+      {/* Birthday Messages */}
+      {birthdayRecipients.length > 0 && (
+        <div className="space-y-3">
+          <h2 className="text-xl font-bold text-warmBrown flex items-center gap-2">
+            <CakeSlice className="h-5 w-5" /> Birthday Celebrations
+          </h2>
+          {birthdayRecipients.map(recipient => 
+            renderMessages(getMessagesByType("birthday"), recipient)
+          )}
+        </div>
+      )}
       
       {/* Wedding Messages */}
-      <div className="space-y-6">
-        <h2 className="text-2xl font-bold text-warmBrown flex items-center gap-2">
-          <PartyPopper className="h-5 w-5" /> Wedding Celebrations
-        </h2>
-        
-        {weddingRecipients.map(recipient => {
-          const recipientUser = users.find(user => user.id === recipient);
-          const recipientMessages = messages.filter(m => m.eventType === "wedding" && m.recipient === recipient);
-          
-          return (
-            <Card key={recipient}>
-              <CardHeader>
-                <CardTitle className="text-xl">
-                  Wedding Wishes for {recipientUser?.name || "Friend"}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  {recipientMessages.map(message => {
-                    const sender = users.find(user => user.id === message.sender);
-                    return (
-                      <div key={message.id} className="p-4 rounded-lg bg-muted/30 space-y-3">
-                        <div className="flex items-center gap-3">
-                          {sender && <UserAvatar user={sender} size="sm" />}
-                          <div>
-                            <p className="font-medium">{sender?.name}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {format(new Date(message.date), 'MMMM d, yyyy')}
-                            </p>
-                          </div>
-                        </div>
-                        
-                        <p className="text-sm leading-relaxed">{message.message}</p>
-                        
-                        {message.mediaType === "image" && (
-                          <div className="mt-3 rounded-lg overflow-hidden border border-border">
-                            <img 
-                              src={message.mediaUrl} 
-                              alt="Celebration photo" 
-                              className="w-full h-auto max-h-64 object-cover"
-                            />
-                          </div>
-                        )}
-                        
-                        {message.mediaType === "video" && (
-                          <div className="mt-3 rounded-lg overflow-hidden border border-border aspect-video">
-                            <iframe
-                              src={message.mediaUrl}
-                              className="w-full h-full"
-                              frameBorder="0"
-                              allow="autoplay; fullscreen; picture-in-picture"
-                              allowFullScreen
-                              title="Wedding message video"
-                            ></iframe>
-                          </div>
-                        )}
-                        
-                        <div className="flex items-center gap-2 pt-2">
-                          <Button variant="ghost" size="sm" className="text-muted-foreground">
-                            <Heart className="h-3.5 w-3.5 mr-1" />
-                            Like
-                          </Button>
-                          <Button variant="ghost" size="sm" className="text-muted-foreground">
-                            <MessageCircle className="h-3.5 w-3.5 mr-1" />
-                            Reply
-                          </Button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+      {weddingRecipients.length > 0 && (
+        <div className="space-y-3">
+          <h2 className="text-xl font-bold text-warmBrown flex items-center gap-2">
+            <PartyPopper className="h-5 w-5" /> Wedding Celebrations
+          </h2>
+          {weddingRecipients.map(recipient => 
+            renderMessages(getMessagesByType("wedding"), recipient)
+          )}
+        </div>
+      )}
       
       {/* Housewarming Messages */}
-      <div className="space-y-6">
-        <h2 className="text-2xl font-bold text-warmBrown flex items-center gap-2">
-          <Home className="h-5 w-5" /> Housewarming Celebrations
-        </h2>
-        
-        {housewarmingRecipients.map(recipient => {
-          const recipientUser = users.find(user => user.id === recipient);
-          const recipientMessages = messages.filter(m => m.eventType === "housewarming" && m.recipient === recipient);
-          
-          return (
-            <Card key={recipient}>
-              <CardHeader>
-                <CardTitle className="text-xl">
-                  Housewarming Wishes for {recipientUser?.name || "Friend"}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  {recipientMessages.map(message => {
-                    const sender = users.find(user => user.id === message.sender);
-                    return (
-                      <div key={message.id} className="p-4 rounded-lg bg-muted/30 space-y-3">
-                        <div className="flex items-center gap-3">
-                          {sender && <UserAvatar user={sender} size="sm" />}
-                          <div>
-                            <p className="font-medium">{sender?.name}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {format(new Date(message.date), 'MMMM d, yyyy')}
-                            </p>
-                          </div>
-                        </div>
-                        
-                        <p className="text-sm leading-relaxed">{message.message}</p>
-                        
-                        {message.mediaType === "image" && (
-                          <div className="mt-3 rounded-lg overflow-hidden border border-border">
-                            <img 
-                              src={message.mediaUrl} 
-                              alt="Celebration photo" 
-                              className="w-full h-auto max-h-64 object-cover"
-                            />
-                          </div>
-                        )}
-                        
-                        {message.mediaType === "video" && (
-                          <div className="mt-3 rounded-lg overflow-hidden border border-border aspect-video">
-                            <iframe
-                              src={message.mediaUrl}
-                              className="w-full h-full"
-                              frameBorder="0"
-                              allow="autoplay; fullscreen; picture-in-picture"
-                              allowFullScreen
-                              title="Housewarming message video"
-                            ></iframe>
-                          </div>
-                        )}
-                        
-                        <div className="flex items-center gap-2 pt-2">
-                          <Button variant="ghost" size="sm" className="text-muted-foreground">
-                            <Heart className="h-3.5 w-3.5 mr-1" />
-                            Like
-                          </Button>
-                          <Button variant="ghost" size="sm" className="text-muted-foreground">
-                            <MessageCircle className="h-3.5 w-3.5 mr-1" />
-                            Reply
-                          </Button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+      {housewarmingRecipients.length > 0 && (
+        <div className="space-y-3">
+          <h2 className="text-xl font-bold text-warmBrown flex items-center gap-2">
+            <Home className="h-5 w-5" /> Housewarming Celebrations
+          </h2>
+          {housewarmingRecipients.map(recipient => 
+            renderMessages(getMessagesByType("housewarming"), recipient)
+          )}
+        </div>
+      )}
       
       {/* Baby Shower Messages */}
-      <div className="space-y-6">
-        <h2 className="text-2xl font-bold text-warmBrown flex items-center gap-2">
-          <Gift className="h-5 w-5" /> Baby Shower Celebrations
-        </h2>
-        
-        {babyShowerRecipients.map(recipient => {
-          const recipientUser = users.find(user => user.id === recipient);
-          const recipientMessages = messages.filter(m => m.eventType === "baby_shower" && m.recipient === recipient);
-          
-          return (
-            <Card key={recipient}>
-              <CardHeader>
-                <CardTitle className="text-xl">
-                  Baby Shower Wishes for {recipientUser?.name || "Friend"}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  {recipientMessages.map(message => {
-                    const sender = users.find(user => user.id === message.sender);
-                    return (
-                      <div key={message.id} className="p-4 rounded-lg bg-muted/30 space-y-3">
-                        <div className="flex items-center gap-3">
-                          {sender && <UserAvatar user={sender} size="sm" />}
-                          <div>
-                            <p className="font-medium">{sender?.name}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {format(new Date(message.date), 'MMMM d, yyyy')}
-                            </p>
-                          </div>
-                        </div>
-                        
-                        <p className="text-sm leading-relaxed">{message.message}</p>
-                        
-                        {message.mediaType === "image" && (
-                          <div className="mt-3 rounded-lg overflow-hidden border border-border">
-                            <img 
-                              src={message.mediaUrl} 
-                              alt="Celebration photo" 
-                              className="w-full h-auto max-h-64 object-cover"
-                            />
-                          </div>
-                        )}
-                        
-                        {message.mediaType === "video" && (
-                          <div className="mt-3 rounded-lg overflow-hidden border border-border aspect-video">
-                            <iframe
-                              src={message.mediaUrl}
-                              className="w-full h-full"
-                              frameBorder="0"
-                              allow="autoplay; fullscreen; picture-in-picture"
-                              allowFullScreen
-                              title="Baby shower message video"
-                            ></iframe>
-                          </div>
-                        )}
-                        
-                        <div className="flex items-center gap-2 pt-2">
-                          <Button variant="ghost" size="sm" className="text-muted-foreground">
-                            <Heart className="h-3.5 w-3.5 mr-1" />
-                            Like
-                          </Button>
-                          <Button variant="ghost" size="sm" className="text-muted-foreground">
-                            <MessageCircle className="h-3.5 w-3.5 mr-1" />
-                            Reply
-                          </Button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+      {babyShowerRecipients.length > 0 && (
+        <div className="space-y-3">
+          <h2 className="text-xl font-bold text-warmBrown flex items-center gap-2">
+            <Gift className="h-5 w-5" /> Baby Shower Celebrations
+          </h2>
+          {babyShowerRecipients.map(recipient => 
+            renderMessages(getMessagesByType("baby_shower"), recipient)
+          )}
+        </div>
+      )}
+
+      {birthdayRecipients.length === 0 && 
+       weddingRecipients.length === 0 && 
+       housewarmingRecipients.length === 0 && 
+       babyShowerRecipients.length === 0 && (
+        <Card>
+          <CardContent className="text-center py-6">
+            <MessageCircle className="w-10 h-10 mx-auto text-muted-foreground mb-3" />
+            <p className="text-muted-foreground">No celebration messages found.</p>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
